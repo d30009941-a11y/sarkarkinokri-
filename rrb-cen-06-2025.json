@@ -1,0 +1,70 @@
+{
+  "rrb-cen-06-2025": {
+    "overview": {
+      "recruitment_body": "Railway Recruitment Boards (RRB)",
+      "notification": "CEN No. 06/2025",
+      "category": "NTPC Graduate Categories",
+      "posts": ["Goods Train Manager", "Station Master", "Junior Accounts Assistant", "Senior Clerk Typist"]
+    },
+    "important_dates": {
+      "published": "21-10-2025",
+      "application_start": "21-10-2025",
+      "closing_date": "Refer to RRB Portal",
+      "exam_dates": "To be notified"
+    },
+    "application_fee": {
+      "standard": "₹500 (₹400 refund)",
+      "concessional": "₹250 (Full refund)",
+      "note": "Refund for CBT attendees only"
+    },
+    "age_limit": {
+      "range": "18-33 years (Normal); 18-36 (Revised for 2025)",
+      "relaxation": "Standard Govt rules for reserved categories"
+    },
+    "vacancy_details": {
+      "total": "Refer to Annexure-B",
+      "post_types": "Graduate Level Posts",
+      "pay_levels": ["Level 5", "Level 6"]
+    },
+    "selection_process": [
+      "1st Stage CBT",
+      "2nd Stage CBT",
+      "Typing Skill Test (for Typist posts)",
+      "Computer Based Aptitude Test (CBAT) (for Station Master)",
+      "Document Verification",
+      "Medical Examination"
+    ],
+    "exam_pattern_1st_stage": {
+      "duration": "90 Minutes",
+      "questions": 100,
+      "sections": ["Mathematics", "General Intelligence", "General Awareness"],
+      "marking": "1/3 negative"
+    },
+    "syllabus_mathematics": ["Number System", "BODMAS", "Decimals", "Fractions", "LCM", "HCF", "Ratio", "Percentage", "Mensuration"],
+    "syllabus_reasoning": ["Analogies", "Series", "Coding", "Syllogism", "Venn Diagrams", "Puzzle", "Decision Making"],
+    "syllabus_general_awareness": ["Current Events", "Sports", "Indian History", "Geography", "Economy", "General Science"],
+    "medical_standards": {
+      "station_master": "A-2 (Medical/Vision intensive)",
+      "others": "A-3, B-2, C-1"
+    },
+    "educational_qualification": {
+      "requirement": "University Degree or its equivalent",
+      "eligibility": "Final year students waiting for result are NOT eligible"
+    },
+    "typing_test_criteria": {
+      "english": "30 wpm",
+      "hindi": "25 wpm (on computer, without editing tools)"
+    },
+    "how_to_apply": ["Create Account on rrbapply.gov.in", "Fill CEN 06/2025 Application", "Live Photo Capture"],
+    "important_links": {
+      "links": {
+        "Apply Online": "https://rrbapply.gov.in",
+        "Download Notification": "https://rrbapply.gov.in/notif.pdf",
+        "View Mock Test": "https://rrbapply.gov.in/mock",
+        "Download Admit Card": "#",
+        "View Result": "#",
+        "Answer Key": "#"
+      }
+    }
+  }
+}
