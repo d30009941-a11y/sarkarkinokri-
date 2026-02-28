@@ -1,0 +1,136 @@
+[
+  {
+    "category": "Syllabus",
+    "links": [
+      {
+        "title": "SSC Syllabus (Official)",
+        "url": "https://ssc.gov.in/candidate-portal/syllabus"
+      },
+      {
+        "title": "UPSC Syllabus (Official)",
+        "url": "https://www.upsc.gov.in/examinations/syllabus"
+      },
+      {
+        "title": "IBPS Syllabus (Official)",
+        "url": "https://www.ibps.in/common-recruitment-process/"
+      },
+      {
+        "title": "Railway NTPC Syllabus",
+        "url": "https://www.rrbcdg.gov.in/syllabus.php"
+      },
+      {
+        "title": "UGC NET Syllabus",
+        "url": "https://www.ugcnetonline.in/syllabus-new.php"
+      },
+      {
+        "title": "GATE 2026 Syllabus",
+        "url": "https://gate2026.iitg.ac.in/exam-papers-and-syllabus.html"
+      },
+      {
+        "title": "CTET Syllabus (Official)",
+        "url": "https://ctet.nic.in/syllabus/"
+      },
+      {
+        "title": "NEET UG Syllabus (Official)",
+        "url": "https://exams.nta.ac.in/NEET/"
+      }
+    ]
+  },
+  {
+    "category": "Admission Forms",
+    "links": [
+      {
+        "title": "RRB NTPC Admission Form",
+        "url": "https://www.rrbapply.gov.in/"
+      },
+      {
+        "title": "SBI Clerk Online Form",
+        "url": "https://www.sbi.co.in/careers/clerk"
+      },
+      {
+        "title": "IBPS PO Online Form",
+        "url": "https://www.ibps.in/po"
+      },
+      {
+        "title": "UPSC OTR Registration",
+        "url": "https://upsconline.nic.in/upsc/OTRP/"
+      }
+    ]
+  },
+  {
+    "category": "Document Verification",
+    "links": [
+      {
+        "title": "RRB DV Portal",
+        "url": "https://indianrailways.gov.in/dv"
+      },
+      {
+        "title": "SSC DV Guidelines",
+        "url": "https://ssc.nic.in/dv"
+      }
+    ]
+  },
+  {
+    "category": "University Results",
+    "links": [
+      {
+        "title": "IISc Bangalore Student Portal",
+        "url": "https://admissions.iisc.ac.in/"
+      },
+      {
+        "title": "JNU Results & Admissions",
+        "url": "https://jnuee.jnu.ac.in/"
+      },
+      {
+        "title": "BHU Student Portal",
+        "url": "https://bhu2.ucanapply.com/student/"
+      },
+      {
+        "title": "JMI Examination Results",
+        "url": "https://jmicoe.in/"
+      },
+      {
+        "title": "DU Examination Portal",
+        "url": "https://exam.du.ac.in/"
+      },
+      {
+        "title": "AMU Controller of Exams",
+        "url": "https://www.amucontrollerexams.com/"
+      },
+      {
+        "title": "UoH Admission & Results",
+        "url": "https://acad.uohyd.ac.in/"
+      },
+      {
+        "title": "IGNOU Term End Results",
+        "url": "https://termendresult.ignou.ac.in/TermEndResult/TermEndResults.htm"
+      }
+    ]
+  },
+  {
+    "category": "Certificate Verification",
+    "links": [
+      {
+        "title": "NCTE Certificate Verification",
+        "url": "https://ncte.gov.in/website/CertificateVerification.aspx"
+      },
+      {
+        "title": "CBET Certificate Verification",
+        "url": "https://ctet.nic.in/"
+      }
+    ]
+  },
+  {
+    "category": "Other Fixed",
+    "links": [
+      {
+        "title": "Digital Locker",
+        "url": "https://www.digilocker.gov.in/"
+      },
+      {
+        "title": "NCS Career Portal",
+        "url": "https://www.ncs.gov.in/"
+      }
+    ]
+  }
+]
