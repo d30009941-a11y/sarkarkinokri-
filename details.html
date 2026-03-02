@@ -148,14 +148,14 @@
         `;
         content.appendChild(header);
 
-        // Detailed Information Button (PHYSICALLY SEPARATE)
-        const detailedBtnWrapper = document.createElement('div');
-        detailedBtnWrapper.className = 'detailed-btn-wrapper';
+        // --- FIRST DETAILED BUTTON (TOP) ---
+        const detailedBtnWrapperTop = document.createElement('div');
+        detailedBtnWrapperTop.className = 'detailed-btn-wrapper';
         const detailedInfoURL = `${jobId}.html`; 
-        detailedBtnWrapper.innerHTML = `
-            <a href="${detailedInfoURL}" id="detailed-info-btn" class="btn-detailed">CLICK HERE FOR DETAILED INFORMATION</a>
+        detailedBtnWrapperTop.innerHTML = `
+            <a href="${detailedInfoURL}" class="btn-detailed detailed-info-btn">CLICK HERE FOR DETAILED INFORMATION</a>
         `;
-        content.appendChild(detailedBtnWrapper);
+        content.appendChild(detailedBtnWrapperTop);
 
         // Dashboard
         const dashboard = document.createElement('div');
@@ -202,6 +202,14 @@
             content.appendChild(tableDiv);
         }
 
+        // --- SECOND DETAILED BUTTON (ABOVE QUICK ACTIONS) ---
+        const detailedBtnWrapperMid = document.createElement('div');
+        detailedBtnWrapperMid.className = 'detailed-btn-wrapper';
+        detailedBtnWrapperMid.innerHTML = `
+            <a href="${detailedInfoURL}" class="btn-detailed detailed-info-btn">CLICK HERE FOR DETAILED INFORMATION</a>
+        `;
+        content.appendChild(detailedBtnWrapperMid);
+
         // Quick Actions Section (PHYSICALLY SEPARATE)
         if (data.important_links && data.important_links.links) {
             const links = data.important_links.links;
@@ -224,20 +232,22 @@
             content.appendChild(actionSec);
         }
 
-        // --- BACKGROUND LOGIC ---
-        const detailedBtnEl = document.getElementById('detailed-info-btn');
+        // --- BACKGROUND LOGIC FOR BOTH BUTTONS ---
+        const detailedBtnEls = document.querySelectorAll('.detailed-info-btn');
         
         fetch(detailedInfoURL, { method: 'HEAD' })
             .then(res => {
                 if (res.ok) {
-                    detailedBtnEl.classList.add('btn-flash');
+                    detailedBtnEls.forEach(btn => btn.classList.add('btn-flash'));
                 }
             })
             .catch(() => {
-                detailedBtnEl.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const downBtn = document.querySelector('.btn-download-ref');
-                    if (downBtn) downBtn.scrollIntoView({ behavior: 'smooth' });
+                detailedBtnEls.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const downBtn = document.querySelector('.btn-download-ref');
+                        if (downBtn) downBtn.scrollIntoView({ behavior: 'smooth' });
+                    });
                 });
             });
     }
