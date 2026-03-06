@@ -1,84 +1,70 @@
 {
   "rrb-cen-08-2025": {
+    "master": "rrb-cen-08-2025",
+    "status": "Active",
+    "url": "https://www.rrbcdg.gov.in",
     "overview": {
-      "post_name": "RRB Isolated & Ministerial Categories Recruitment 2025",
-      "recruitment_body": "Railway Recruitment Board (RRB)",
+      "post_name": "Recruitment for Various Posts of Isolated Categories",
+      "recruitment_body": "Railway Recruitment Boards (RRBs)",
       "notification_number": "CEN 08/2025"
     },
-
     "important_dates": {
-      "Application Start Date": "29 January 2026",
-      "Last Date to Apply": "28 February 2026",
-      "Last Date Fee Payment": "02 March 2026",
-      "Correction Window": "05–12 March 2026",
-      "CBT Exam Date": "To Be Announced"
+      "Indicative Notice": "20/12/2025",
+      "Online Application Starts": "30/12/2025 (00:00 Hrs)",
+      "Closing Date for Application": "29/01/2026 (23:59 Hrs)",
+      "Fee Payment Deadline": "31/01/2026 (23:59 Hrs)",
+      "Modification Window": "01/02/2026 to 10/02/2026",
+      "Scribe Detail Submission": "11/02/2026 to 15/02/2026"
     },
-
-    "application_fee": {
-      "General / OBC / EWS": "₹500 (₹400 refundable after CBT)",
-      "SC / ST / PwBD / Female / ExSM / Minorities": "₹250 (Fully refundable after CBT)",
-      "Payment Mode": "Online (Debit Card / Credit Card / Net Banking / UPI)"
-    },
-
-    "age_limit": {
-      "Minimum Age": "18 Years",
-      "Maximum Age": "48 Years (Varies by Post)",
-      "Age Relaxation": "As per Government Rules for Reserved Categories"
-    },
-
-    "educational_qualification": {
-      "Chief Law Assistant": "Degree in Law (LLB)",
-      "Junior Translator": "Master’s Degree in Hindi/English with Translation Diploma",
-      "Staff & Welfare Inspector": "Graduate with Labour Welfare / Social Welfare qualification",
-      "PTI / Librarian": "Relevant Degree / Diploma in respective field",
-      "Other Posts": "Post-specific qualification as per notification"
-    },
-
-    "vacancy_details": {
-      "table": [
-        { "RRB": "Ahmedabad", "UR": 22, "OBC": 14, "SC": 8, "ST": 4, "EWS": 5, "Total": 53 },
-        { "RRB": "Ajmer", "UR": 18, "OBC": 12, "SC": 7, "ST": 3, "EWS": 4, "Total": 44 },
-        { "RRB": "Allahabad", "UR": 35, "OBC": 23, "SC": 13, "ST": 6, "EWS": 8, "Total": 85 },
-        { "RRB": "Bengaluru", "UR": 20, "OBC": 13, "SC": 7, "ST": 4, "EWS": 5, "Total": 49 },
-        { "RRB": "Bhopal", "UR": 17, "OBC": 11, "SC": 6, "ST": 3, "EWS": 4, "Total": 41 },
-        { "RRB": "Bhubaneswar", "UR": 15, "OBC": 10, "SC": 6, "ST": 3, "EWS": 3, "Total": 37 },
-        { "RRB": "Chandigarh", "UR": 12, "OBC": 8, "SC": 5, "ST": 2, "EWS": 3, "Total": 30 },
-        { "RRB": "Chennai", "UR": 28, "OBC": 18, "SC": 10, "ST": 5, "EWS": 6, "Total": 67 },
-        { "RRB": "Gorakhpur", "UR": 19, "OBC": 12, "SC": 7, "ST": 3, "EWS": 4, "Total": 45 },
-        { "RRB": "Guwahati", "UR": 9, "OBC": 6, "SC": 3, "ST": 2, "EWS": 2, "Total": 22 },
-        { "RRB": "Kolkata", "UR": 30, "OBC": 20, "SC": 11, "ST": 5, "EWS": 7, "Total": 73 },
-        { "RRB": "Mumbai", "UR": 38, "OBC": 25, "SC": 14, "ST": 7, "EWS": 9, "Total": 93 },
-        { "RRB": "Patna", "UR": 16, "OBC": 10, "SC": 6, "ST": 3, "EWS": 4, "Total": 39 },
-        { "RRB": "Ranchi", "UR": 13, "OBC": 8, "SC": 5, "ST": 2, "EWS": 3, "Total": 31 },
-        { "RRB": "Secunderabad", "UR": 24, "OBC": 16, "SC": 9, "ST": 4, "EWS": 6, "Total": 59 }
-      ]
-    },
-
-    "selection_process": [
-      "Computer Based Test (CBT)",
-      "Skill Test / Translation Test (where applicable)",
-      "Document Verification",
-      "Medical Examination"
+    "vacancy_table": [
+      { "Post": "Chief Law Assistant", "Level": "7", "Pay": "44,900", "Med": "C1", "Age": "18-40", "Total": "22" },
+      { "Post": "Public Prosecutor", "Level": "7", "Pay": "44,900", "Med": "C1", "Age": "18-32", "Total": "07" },
+      { "Post": "Junior Translator (Hindi)", "Level": "6", "Pay": "35,400", "Med": "C2", "Age": "18-33", "Total": "202" },
+      { "Post": "Senior Publicity Inspector", "Level": "6", "Pay": "35,400", "Med": "C1", "Age": "18-33", "Total": "15" },
+      { "Post": "Staff and Welfare Inspector", "Level": "6", "Pay": "35,400", "Med": "C1", "Age": "18-33", "Total": "24" },
+      { "Post": "Scientific Assistant (Training)", "Level": "6", "Pay": "35,400", "Med": "B1", "Age": "18-35", "Total": "02" },
+      { "Post": "Lab Assistant Gr.III (C&M)", "Level": "2", "Pay": "19,900", "Med": "B1", "Age": "18-30", "Total": "39" },
+      { "Post": "Scientific Supervisor (Ergo/Trg)", "Level": "7", "Pay": "44,900", "Med": "B1", "Age": "18-35", "Total": "01" }
     ],
-
-    "medical_standards": {
-      "Medical Classification": "As per post requirement (A-2 / A-3 / B-1 / B-2 / C-1)",
-      "Final Fitness": "Subject to Railway Medical Board approval"
-    },
-
-    "important_instructions": [
-      "Candidates must apply for only one RRB.",
-      "Post preference once submitted cannot be changed.",
-      "Skill test qualifying in nature where applicable.",
-      "Verify eligibility before applying."
-    ],
-
-    "important_links": {
-      "links": {
-        "Apply Online": "https://www.rrbcdg.gov.in/",
-        "Official Notification PDF": "CEN-08-2025-Notification.pdf",
-        "Official Website": "https://indianrailways.gov.in/"
+    "post_parameters_detailed": [
+      {
+        "Post": "Chief Law Assistant",
+        "Qualification": "University Degree in Law with 3 years standing practice as a Pleader at Bar. Serving Railway employees with 5 years service also eligible.",
+        "PwBD_Suitability": "B, LV, OA, OL, BL, OAL, LC, DW, AAV"
+      },
+      {
+        "Post": "Junior Translator (Hindi)",
+        "Qualification": "Master's Degree in Hindi/English with English/Hindi as elective/medium at Degree level AND Recognized Diploma/Certificate in Translation or 2 years experience.",
+        "PwBD_Suitability": "B, LV, D, HH, OA, OL, BL, OAL, CP, LC, DW, AAV"
       }
+    ],
+    "medical_standards": [
+      { "Standard": "B-1", "Fitness": "Physically fit in all respects", "Visual_Acuity": "Distant: 6/9, 6/12 with/without glasses (max 4D). Near: Sn 0.6. Must pass Colour/Night/Binocular vision tests." },
+      { "Standard": "C-1", "Fitness": "Physically fit in all respects", "Visual_Acuity": "Distant: 6/12, 6/18 with/without glasses. Near: Sn 0.6 with/without glasses." },
+      { "Standard": "C-2", "Fitness": "Physically fit in all respects", "Visual_Acuity": "Distant: 6/12, Nil with/without glasses. Near: Sn 0.6 with/without glasses." }
+    ],
+    "recruitment_process": {
+      "Stages": [
+        "Single Stage Computer Based Test (CBT)",
+        "Translation Test (Qualifying for Jr. Translator)",
+        "Document Verification (DV)",
+        "Medical Examination"
+      ],
+      "Exam_Details": {
+        "Negative_Marking": "1/3rd of marks for each wrong answer",
+        "Shortlisting_for_TT": "10 times the vacancies based on CBT merit",
+        "Shortlisting_for_DV": "Based on CBT merit (and TT qualification where applicable)"
+      }
+    },
+    "important_instructions": [
+      "Only ONE application allowed per candidate across all RRBs. Multiple applications lead to rejection of all.",
+      "Signatures must be in running handwriting; CAPITAL LETTERS NOT ACCEPTABLE.",
+      "LASIK surgery candidates may be eligible for B1 standard if surgery was at least 1 year prior and residual corneal thickness is >425 microns.",
+      "Modification fee applies for each correction session; chosen RRB and 'Create Account' details cannot be modified."
+    ],
+    "application_fee": {
+      "General/OBC/EWS": "₹500 (₹400 refundable after attending CBT)",
+      "SC/ST/Female/ExSM/PwBD/Minority/EBC": "₹250 (Fully refundable after attending CBT)"
     }
   }
 }
