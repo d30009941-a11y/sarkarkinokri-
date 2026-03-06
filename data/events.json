@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": "rrb-cen-08-2025-res",
+      "master": "rrb-cen-08-2025",
+      "lifecycle": "result",
+      "phase": "Active",
+      "type": "Result",
+      "status": "Expired",
+      "url": "details.html?id=rrb-cen-08-2025",
+      "opening_date": "30/12/2025",
+      "closing_date": "29/01/2026",
+      "last_updated": "2026-03-06"
+    }
+  ]
+}
