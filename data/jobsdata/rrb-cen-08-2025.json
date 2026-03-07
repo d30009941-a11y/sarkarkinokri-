@@ -1,10 +1,12 @@
 {
-  "rrb-cen-08-2026": {
-    "id": "rrb-cen-08-2026",
-    "master": "RRB-CEN-08-2026-ISOLATED-CATEGORIES",
-    "status": "Active",
-    "url": "https://www.rrbcdg.gov.in",
+  {
+  "rrb-cen-08-2026": {  // Changed from 2025 to 2026
     "overview": {
+      "post_name": "RRB Isolated & Ministerial Categories Recruitment 2026",
+      "notification_number": "CEN 08/2026"
+    },
+    ...
+
       "post_name": "Recruitment for Various Posts of Isolated Categories",
       "recruitment_body": "Railway Recruitment Boards (RRBs)",
       "notification_number": "CEN 08/2026"
