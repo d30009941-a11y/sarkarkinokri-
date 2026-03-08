@@ -1,45 +1,42 @@
 {
- "ssc-cgl-2025": {
-  "slug": "ssc-cgl-2025",
-  "organization": "Staff Selection Commission (SSC)",
-  "exam_name": "Combined Graduate Level Examination 2025",
-  "notification_number": "F. No. 3/1/2025-P&P-I",
-  "important_dates": {
-    "Notification Date": "2026-02-15",
-    "Application Window": "2026-02-15 to 2026-03-20",
-    "Tier-1 Exam Date": "June 2026",
-    "Tier-1 Answer Key": "2026-03-08",
-    "Objection Last Date": "2026-03-15"
-  },
-  "vacancy": { 
-    "total": "15,644", 
-    "table": [
-      { "Post": "Assistant Section Officer", "Dept": "CSS", "Age": "20-30" },
-      { "Post": "Income Tax Inspector", "Dept": "CBDT", "Age": "18-30" }
-    ] 
-  },
-  "eligibility": {
-    "nationality": "Citizen of India",
-    "age_limit": { "Min": "18", "Max": "32", "As on": "2026-08-01" },
-    "education": "Bachelor's Degree from a recognized University."
-  },
-  "application_fee": { "Gen/OBC/EWS": "₹100", "Others": "Exempted" },
-  "reservation": { "SC/ST": "5 Years", "OBC": "3 Years" },
-  "selection_process": [ "Tier-I: CBT", "Tier-II: CBT & Skill Test", "Document Verification" ],
-  "syllabus": { "Tier-I": "Reasoning, GA, Quantitative Aptitude, English" },
-  "exam_pattern": { "Mode": "Online", "Duration": "60 Mins", "Negative": "0.50" },
-  "how_to_apply": [ "Login to ssc.gov.in", "Fill Application", "Upload Photo", "Submit" ],
-  "important_links": {
-    "links": {
-      "Download Notification": "https://ssc.gov.in/cgl-2025-notif.pdf",
-      "Official Website": "https://ssc.gov.in",
-      "Apply Online": "https://ssc.gov.in/apply-portal",
-      "Download Admit Card": "#",
-      "Check Result": "#",
-      "Download Answer Key": "https://ssc.gov.in/login-answer-key"
+  "ssc-cgl-2025": {
+    "overview": {
+      "post_name": "Combined Graduate Level Examination 2025",
+      "recruitment_body": "Staff Selection Commission (SSC)",
+      "notification_number": "F. No. 3/1/2025-P&P-I"
+    },
+    "important_dates": {
+      "Notification Date": "2026-02-15",
+      "Application Window": "2026-02-15 to 2026-03-20",
+      "Tier-1 Exam Date": "June 2026",
+      "Tier-1 Answer Key": "2026-03-08"
+    },
+    "application_fee": {
+      "Gen/OBC/EWS": "₹100",
+      "Others": "Exempted"
+    },
+    "eligibility": {
+      "Nationality": "Citizen of India",
+      "Age Limit": "18-32 Years",
+      "Education": "Bachelor's Degree"
+    },
+    "vacancy_details": {
+      "table": [
+        { "Post": "Assistant Section Officer", "Dept": "CSS", "Age": "20-30" },
+        { "Post": "Income Tax Inspector", "Dept": "CBDT", "Age": "18-30" }
+      ]
+    },
+    "selection_process": [ 
+      "Tier-I: CBT", 
+      "Tier-II: CBT & Skill Test", 
+      "Document Verification" 
+    ],
+    "important_links": {
+      "links": {
+        "Download Notification": "https://ssc.gov.in/cgl-2025-notif.pdf",
+        "Official Website": "https://ssc.gov.in",
+        "Download Answer Key": "https://ssc.gov.in/login-answer-key"
+      }
     }
-  },
-  "additional_info": "Objections to Answer Key must be submitted with ₹100 per question.",
-  "contact_details": "SSC Helpline: 1800-11-0033"
- }
+  }
 }
