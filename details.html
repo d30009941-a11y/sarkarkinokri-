@@ -101,31 +101,141 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const jobId = urlParams.get('id');
-    const detailedInfoURL = `${jobId}.html`;
 
-    // --- IMMEDIATE REDIRECT LOGIC ---
     if (jobId) {
-        fetch(detailedInfoURL, { method: 'HEAD' })
-            .then(res => {
-                if (res.ok) {
-                    // HTML Available: Redirect instantly
-                    window.location.replace(detailedInfoURL);
-                } else {
-                    // HTML Not Available: Load JSON data
-                    loadJsonData(jobId);
-                }
-            })
-            .catch(() => loadJsonData(jobId));
+        loadJsonData(jobId);
+    } else {
+        showError("Missing Job ID");
     }
 
-    function loadJsonData(id) {
-        fetch(`data/jobsdata/${id}.json`)
-            .then(res => { if (!res.ok) throw new Error("404"); return res.json(); })
-            .then(json => {
-                const dataKey = json[id] ? id : Object.keys(json)[0];
-                renderEngine(json[dataKey]);
-            })
-            .catch(() => loadFallback(id));
+    async function loadJsonData(id) {
+        try {
+            const response = await fetch(`data/jobsdata/${id}.json`);
+            if (!response.ok) throw new Error("File not found");
+            const rawData = await response.json();
+
+            // HYBRID LOGIC: Handle if JSON is { "id": {data} } OR just {data}
+            const data = rawData[id] || rawData;
+            renderEngine(data);
+        } catch (err) {
+            console.error(err);
+            loadFallback(id);
+        }
+    }
+
+    function renderEngine(data) {
+        const loader = document.getElementById('loader');
+        const content = document.getElementById('main-content');
+        if(loader) loader.style.display = 'none';
+        content.style.display = 'block';
+        content.innerHTML = ""; 
+
+        // 1. FUZZY HEADER MAPPING (Handles Overview object or Root strings)
+        const header = document.createElement('div');
+        header.className = 'job-header';
+        const title = data.overview?.post_name || data.exam_name || data.overview?.category || "Notification Update";
+        const org = data.overview?.recruitment_body || data.organization || "Official Update";
+        const notify = data.overview?.notification_number || data.notification_number || "Check Notification";
+
+        header.innerHTML = `
+            <h1>${title}</h1>
+            <div class="meta-pills">
+                <span class="pill"><i class="fas fa-university"></i> ${org}</span>
+                <span class="pill"><i class="fas fa-file-alt"></i> ${notify}</span>
+            </div>
+        `;
+        content.appendChild(header);
+
+        // 2. DASHBOARD (Dates & Fees)
+        const dashboard = document.createElement('div');
+        dashboard.className = 'info-dashboard';
+        const dates = data.important_dates || {};
+        const fees = data.application_fee || {};
+
+        dashboard.innerHTML = `
+            <div class="section-box">
+                <div class="section-title"><i class="fas fa-calendar-alt"></i> Important Dates</div>
+                <div class="generic-grid">
+                    ${Object.entries(dates).map(([k, v]) => `<div class="grid-card"><label>${k}</label><span>${v}</span></div>`).join('')}
+                </div>
+            </div>
+            <div class="section-box">
+                <div class="section-title"><i class="fas fa-rupee-sign"></i> Application Fee</div>
+                <div class="generic-grid">
+                    ${Object.entries(fees).map(([k, v]) => `<div class="grid-card"><label>${k}</label><span>${v}</span></div>`).join('')}
+                </div>
+            </div>
+        `;
+        content.appendChild(dashboard);
+
+        // 3. HYBRID VACANCY TABLE (Handles 'vacancy' or 'vacancy_details')
+        const vacancySource = data.vacancy_details || data.vacancy;
+        if (vacancySource) {
+            const tableDiv = document.createElement('div');
+            tableDiv.innerHTML = renderTable(vacancySource, "📊 Vacancy Breakdown");
+            content.appendChild(tableDiv);
+        }
+
+        // 4. AUTOMATIC SECTION GENERATOR (The "Anything Else" Loop)
+        const skipKeys = ['overview', 'important_dates', 'application_fee', 'important_links', 'vacancy', 'vacancy_details', 'exam_name', 'organization', 'notification_number', 'slug'];
+        
+        Object.entries(data).forEach(([key, value]) => {
+            if (skipKeys.includes(key) || !value) return;
+
+            const sec = document.createElement('div');
+            sec.className = 'section-box';
+            sec.style.marginTop = '20px';
+            const displayTitle = key.replace(/_/g, ' ').toUpperCase();
+            
+            let bodyHTML = `<div class="section-title">${displayTitle}</div>`;
+            
+            if (Array.isArray(value)) {
+                bodyHTML += `<ul>${value.map(item => `<li>${item}</li>`).join('')}</ul>`;
+            } else if (typeof value === 'object') {
+                bodyHTML += `<div class="generic-grid">${Object.entries(value).map(([k, v]) => `
+                    <div class="grid-card"><label>${k}</label><span>${v}</span></div>`).join('')}</div>`;
+            } else {
+                bodyHTML += `<p>${value}</p>`;
+            }
+            sec.innerHTML = bodyHTML;
+            content.appendChild(sec);
+        });
+
+        // 5. QUICK ACTIONS
+        const linkSource = data.important_links?.links || data.important_links || {};
+        if (Object.keys(linkSource).length > 0) {
+            const actionSec = document.createElement('div');
+            actionSec.className = 'section-box';
+            actionSec.style.marginTop = '20px';
+            let actionHTML = `<div class="section-title"><i class="fas fa-link"></i> Quick Actions</div><div class="link-grid">`;
+            
+            Object.entries(linkSource).forEach(([label, url]) => {
+                if(typeof url !== 'string') return;
+                const isActive = url && url !== "#";
+                actionHTML += `<a href="${isActive ? url : '#'}" target="_blank" class="btn ${isActive ? 'btn-action-active' : 'btn-inactive'}">${label}</a>`;
+            });
+            actionHTML += `</div>`;
+            actionSec.innerHTML = actionHTML;
+            content.appendChild(actionSec);
+        }
+    }
+
+    function renderTable(vData, title) {
+        const rows = vData.table || vData.rows || (Array.isArray(vData) ? vData : null);
+        if (!rows || rows.length === 0) return "";
+        const headers = Object.keys(rows[0]);
+        return `
+            <div class="section-box" style="margin-top:20px;">
+                <div class="section-title">${title}</div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+                        <tbody>
+                            ${rows.map(r => `<tr>${headers.map(h => `<td>${r[h]}</td>`).join('')}</tr>`).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
     }
 
     async function loadFallback(id) {
@@ -133,179 +243,26 @@
             const res = await fetch('data/events.json');
             const master = await res.json();
             const job = master.data.find(e => e.id === id);
-            if (job) renderFallbackPage(job);
-            else showError("Job not found.");
-        } catch (e) { showError("Error fetching data."); }
+            if (job) {
+                document.getElementById('loader').style.display = 'none';
+                const content = document.getElementById('main-content');
+                content.style.display = 'block';
+                content.innerHTML = `
+                    <div class="job-header"><h1>${job.master.replace(/-/g, ' ').toUpperCase()}</h1></div>
+                    <div class="section-box" style="text-align:center;">
+                        <p>Detailed data pending. Visit the official portal for now.</p>
+                        <a href="index.html" class="btn btn-action-active">Back to Home</a>
+                    </div>`;
+            } else {
+                showError("Job Not Found");
+            }
+        } catch(e) { showError("Connection Error"); }
     }
 
-    function renderEngine(data) {
-        document.getElementById('loader').style.display = 'none';
-        const content = document.getElementById('main-content');
-        content.style.display = 'block';
-
-        // Advertisement Slot Logic
-        let adHTML = `<div id="ad-slot">Advertisement Slot</div>`;
-        if (data.advertisement && data.advertisement.enabled) {
-            adHTML = `<div id="ad-slot" style="display:block;">${data.advertisement.content || 'Advertisement'}</div>`;
-        }
-
-        // --- DOM CONSTRUCTION ---
-        content.innerHTML = adHTML;
-
-        // Job Header
-        const header = document.createElement('div');
-        header.className = 'job-header';
-        header.innerHTML = `
-            <h1>${data.overview.post_name || data.overview.category}</h1>
-            <div class="meta-pills">
-                <span class="pill"><i class="fas fa-university"></i> ${data.overview.recruitment_body}</span>
-                <span class="pill"><i class="fas fa-file-alt"></i> ${data.overview.notification_number || data.overview.notification}</span>
-            </div>
-        `;
-        content.appendChild(header);
-
-        // --- FIRST DETAILED BUTTON (TOP) ---
-        const detailedBtnWrapperTop = document.createElement('div');
-        detailedBtnWrapperTop.className = 'detailed-btn-wrapper';
-        detailedBtnWrapperTop.innerHTML = `
-            <a href="#" class="btn-detailed detailed-info-btn">CLICK HERE FOR DETAILED INFORMATION</a>
-        `;
-        content.appendChild(detailedBtnWrapperTop);
-
-        // Dashboard
-        const dashboard = document.createElement('div');
-        dashboard.className = 'info-dashboard';
-        dashboard.innerHTML = `
-            <div class="section-box">
-                <div class="section-title"><i class="fas fa-calendar-alt"></i> Important Dates</div>
-                <div class="generic-grid">
-                    ${Object.entries(data.important_dates).map(([k, v]) => `
-                        <div class="grid-card"><label>${k}</label><span>${v}</span></div>`).join('')}
-                </div>
-            </div>
-            <div class="section-box">
-                <div class="section-title"><i class="fas fa-rupee-sign"></i> Application Fee</div>
-                <div class="generic-grid">
-                    ${Object.entries(data.application_fee).map(([k, v]) => `
-                        <div class="grid-card"><label>${k}</label><span>${v}</span></div>`).join('')}
-                </div>
-            </div>
-        `;
-        content.appendChild(dashboard);
-
-        // Dynamic Sections
-        const skip = ['overview', 'important_dates', 'application_fee', 'important_links', 'vacancy_details', 'advertisement'];
-        Object.entries(data).forEach(([key, value]) => {
-            if (skip.includes(key)) return;
-            const sec = document.createElement('div');
-            sec.className = 'section-box';
-            sec.style.marginTop = '20px';
-            const title = key.replace(/_/g, ' ').toUpperCase();
-            let secHTML = `<div class="section-title">${title}</div>`;
-            if (Array.isArray(value)) secHTML += `<ul>${value.map(item => `<li>${item}</li>`).join('')}</ul>`;
-            else if (typeof value === 'object') secHTML += `<div class="generic-grid">${Object.entries(value).map(([k, v]) => `
-                <div class="grid-card"><label>${k}</label><span>${v}</span></div>`).join('')}</div>`;
-            else secHTML += `<p>${value}</p>`;
-            sec.innerHTML = secHTML;
-            content.appendChild(sec);
-        });
-
-        // Table
-        if (data.vacancy_details) {
-            const tableDiv = document.createElement('div');
-            tableDiv.innerHTML = renderTable(data.vacancy_details, "📊 Vacancy Breakdown");
-            content.appendChild(tableDiv);
-        }
-
-        // --- SECOND DETAILED BUTTON (ABOVE QUICK ACTIONS) ---
-        const detailedBtnWrapperMid = document.createElement('div');
-        detailedBtnWrapperMid.className = 'detailed-btn-wrapper';
-        detailedBtnWrapperMid.innerHTML = `
-            <a href="#" class="btn-detailed detailed-info-btn">CLICK HERE FOR DETAILED INFORMATION</a>
-        `;
-        content.appendChild(detailedBtnWrapperMid);
-
-        // Quick Actions Section (PHYSICALLY SEPARATE)
-        if (data.important_links && data.important_links.links) {
-            const links = data.important_links.links;
-            const actionSec = document.createElement('div');
-            actionSec.className = 'section-box';
-            actionSec.style.marginTop = '20px';
-            
-            let actionHTML = `<div class="section-title"><i class="fas fa-link"></i> Quick Actions</div><div class="link-grid">`;
-            
-            Object.entries(links).forEach(([label, url]) => {
-                const isActive = url && url !== '#' && url !== '' && url !== 'null';
-                let btnClass = isActive ? `btn btn-action-active` : 'btn btn-inactive';
-                if(label.toLowerCase().includes("download notification")) {
-                    btnClass += ' btn-download-ref';
-                }
-                actionHTML += `<a href="${isActive ? url : '#'}" target="_blank" class="${btnClass}">${label}</a>`;
-            });
-            actionHTML += `</div>`;
-            actionSec.innerHTML = actionHTML;
-            content.appendChild(actionSec);
-        }
-
-        // --- SOLIDIFIED CLICK LOGIC FOR BOTH BUTTONS ---
-        const detailedBtnEls = document.querySelectorAll('.detailed-info-btn');
-        
-        fetch(detailedInfoURL, { method: 'HEAD' })
-            .then(res => {
-                if (res.ok) {
-                    // HTML Available: Flash and Link to HTML
-                    detailedBtnEls.forEach(btn => {
-                        btn.classList.add('btn-flash');
-                        btn.href = detailedInfoURL; // Link to HTML
-                    });
-                } else {
-                    throw new Error("Not Available");
-                }
-            })
-            .catch(() => {
-                // HTML Not Available: No flash, Link to Download Notification
-                detailedBtnEls.forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const downBtn = document.querySelector('.btn-download-ref');
-                        if (downBtn) downBtn.click(); // Trigger the actual download link
-                    });
-                });
-            });
+    function showError(msg) {
+        document.getElementById('loader').innerHTML = `<p style="color:red; font-weight:bold;">${msg}</p>`;
     }
-
-    function renderTable(data, title) {
-        const tableData = data.table || data.vacancy_table || data.rows || data;
-        if (!Array.isArray(tableData) || tableData.length === 0) return '';
-        const headers = Object.keys(tableData[0]);
-        return `
-            <div class="section-box" style="margin-top:20px;">
-                <div class="section-title"><i class="fas fa-users"></i> ${title}</div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
-                        <tbody>
-                            ${tableData.map(row => `
-                                <tr>${headers.map(h => `<td>${row[h]}</td>`).join('')}</tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-    }
-
-    function renderFallbackPage(job) {
-        document.getElementById('loader').style.display = 'none';
-        const content = document.getElementById('main-content');
-        content.style.display = 'block';
-        content.innerHTML = `
-            <div class="job-header"><h1>${job.master.replace(/-/g, ' ').toUpperCase()}</h1>
-            <div class="meta-pills"><span class="pill">Status: ${job.status}</span></div></div>
-            <div class="section-box"><a href="${job.url}" class="btn btn-action-active" target="_blank">Visit Official Website</a></div>
-        `;
-    }
-    function showError(msg) { document.getElementById('loader').innerHTML = `<p style="color:red;">${msg}</p>`; }
 </script>
+
 </body>
 </html>
