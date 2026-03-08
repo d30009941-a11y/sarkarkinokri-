@@ -1,56 +1,11 @@
-{
-  "data": [
-    {
-      "id": "ssc-cgl-2025-answerkey-t1",
-      "master_id": "ssc-cgl-2025",
-      "phase": "Tier-1",
-      "title": "SSC CGL 2025 Tier-1 Provisional Answer Key",
-      "type": "Answer Key",
-      "status": "Active",
-      "opening_date": "2026-03-08",
-      "closing_date": "2026-03-15",
-      "updated_at": "2026-03-08T15:30:00Z",
-      "dynamic_indicator": "Objection Window Open",
-      "url": "https://ssc.gov.in/answer-key-t1"
-    },
-    {
-      "id": "ssc-cgl-2025-admit-t1",
-      "master_id": "ssc-cgl-2025",
-      "phase": "Tier-1",
-      "title": "SSC CGL 2025 Tier-1 Admit Card / Status",
-      "type": "Admit Card",
-      "status": "Inactive",
-      "opening_date": "2026-02-20",
-      "closing_date": "2026-03-05",
-      "updated_at": "2026-02-20T10:00:00Z",
-      "dynamic_indicator": "Exam Completed",
-      "url": "#"
-    },
-    {
-      "id": "ssc-cgl-2025-detailed",
-      "master_id": "ssc-cgl-2025",
-      "phase": "Common",
-      "title": "SSC CGL 2025 Detailed Notification",
-      "type": "Recruitment",
-      "status": "Active",
-      "opening_date": "2026-02-01",
-      "closing_date": "2026-03-01",
-      "updated_at": "2026-02-01T10:00:00Z",
-      "dynamic_indicator": "Application Closed",
-      "url": "https://ssc.gov.in/cgl-notif.pdf"
-    },
-    {
-      "id": "ssc-cgl-2025-short",
-      "master_id": "ssc-cgl-2025",
-      "phase": "Common",
-      "title": "SSC CGL 2025 Short Notice",
-      "type": "Recruitment",
-      "status": "Inactive",
-      "opening_date": "2026-01-15",
-      "closing_date": null,
-      "updated_at": "2026-01-15T09:00:00Z",
-      "dynamic_indicator": "Superseded by Detailed Notice",
-      "url": "#"
-    }
-  ]
-}
+[
+  {
+    "id": "SSC-CGL-2025-ANS-T1",
+    "master_id": "SSC-CGL-2025",
+    "title": "SSC CGL 2025 Tier-1 ANSWER KEY Out",
+    "type": "ans_key_T1",
+    "status": "ACTIVE",
+    "updated_at": "2026-03-08T16:30:00Z",
+    "url": "#"
+  }
+]
