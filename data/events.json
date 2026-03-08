@@ -2,36 +2,17 @@
   "data": [
     {
       "id": "ssc-cgl-2025-answerkey",
-      "master_id": "ssc-cgl-2025",
-      "title": "SSC CGL 2025 Tier-I Provisional Answer Key & Objection Management",
+      "master": "ssc-cgl-2025-tier-1-provisional-answer-key",
       "type": "Answer Key",
       "status": "Active",
-      "opening_date": "2026-03-08",
-      "closing_date": "2026-03-15",
-      "updated_at": "2026-03-08T15:30:00Z",
-      "url": "https://ssc.gov.in/answer-key-portal"
+      "updated_at": "2026-03-08T15:30:00Z"
     },
     {
       "id": "ssc-cgl-2025-detailed",
-      "master_id": "ssc-cgl-2025",
-      "title": "SSC CGL 2025 Detailed Notification (15,000+ Vacancy)",
+      "master": "ssc-cgl-2025-detailed-notification",
       "type": "Recruitment",
       "status": "Active",
-      "opening_date": "2026-02-15",
-      "closing_date": "2026-03-20",
-      "updated_at": "2026-02-15T10:00:00Z",
-      "url": "https://ssc.gov.in/cgl-2025-notif.pdf"
-    },
-    {
-      "id": "ssc-cgl-2025-short",
-      "master_id": "ssc-cgl-2025",
-      "title": "SSC CGL 2025 Short Notice",
-      "type": "Recruitment",
-      "status": "Inactive",
-      "opening_date": "2026-02-01",
-      "closing_date": "2026-02-10",
-      "updated_at": "2026-02-01T09:00:00Z",
-      "url": "https://ssc.gov.in/short-notice.pdf"
+      "updated_at": "2026-03-08T10:00:00Z"
     }
   ]
 }
