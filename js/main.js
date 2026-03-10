@@ -1,44 +1,26 @@
 async function loadPortal() {
     try {
-        // Step 1: Fetch the manifest
-        const indexRes = await fetch('data/index.json');
-        if (!indexRes.ok) throw new Error("Failed to fetch index.json");
-        const indexData = await indexRes.json();
+        // 1. Fetch the main manifest first
+        const manifestResponse = await fetch('data/index.json');
+        const manifest = await manifestResponse.json();
 
-        console.log("Index fetched:", indexData);
-
-        // Step 2: Fetch actual events
-        const eventPromises = indexData.events.map(path => fetch(path).then(r => r.json()));
-        const jobPromises = indexData.jobsdata.map(path => fetch(path).then(r => r.json()));
-
-        const [eventsArray, jobsArray, important, portals] = await Promise.all([
-            Promise.all(eventPromises),
-            Promise.all(jobPromises),
-            fetch(indexData.importantlinks).then(r => r.json()),
-            fetch(indexData.staticportals).then(r => r.json())
+        // 2. Now fetch the actual content using paths from the manifest
+        // Let's grab the first event file and the static files as an example
+        const results = await Promise.allSettled([
+            fetch(manifest.events[0]).then(r => r.json()), // Fetches Mslug_1.json
+            fetch(manifest.staticportals).then(r => r.json()),
+            fetch(manifest.importantlinks).then(r => r.json())
         ]);
 
-        console.log("Events fetched:", eventsArray.length);
-        console.log("Jobs fetched:", jobsArray.length);
+        const eventData = results[0].status === "fulfilled" ? results[0].value : null;
+        const portals = results[1].status === "fulfilled" ? results[1].value : [];
+        const links = results[2].status === "fulfilled" ? results[2].value : [];
 
-        // Flatten events data if needed
-        const eventsData = eventsArray.flatMap(e => e.data || []);
-        const jobsData = jobsArray.flatMap(j => Object.values(j) || []);
-
-        // ======= Your previous population logic =======
-        // Use eventsData, jobsData, important, portals as before
-        // Example:
-        eventsData.forEach(item => {
-            let type = (item.type || "").toLowerCase();
-            let linkText = (item.master || item.title || "UPDATE AVAILABLE").replace(/-/g, ' ').toUpperCase();
-            let linkHTML = `<li><a href="details.html?id=${item.id}">${linkText}</a></li>`;
-            if(type.includes("job")) document.getElementById("list-jobs").innerHTML += linkHTML;
-            // ... continue board routing logic
-        });
+        console.log("Actual Event Content:", eventData);
+        
+        // 3. Populate your UI here...
 
     } catch (e) {
-        console.error("Error loading portal:", e);
+        console.error("Failed to load portal:", e);
     }
 }
-
-loadPortal();
