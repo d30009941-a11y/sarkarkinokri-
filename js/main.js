@@ -1,30 +1,206 @@
-async function loadPortal() {
-    try {
-        // 1. Fetch the manifest (Relative to index.html)
-        const response = await fetch('data/index.json');
-        if (!response.ok) throw new Error("Could not find index.json");
-        const manifest = await response.json();
+async function loadPortal(){
 
-        // 2. Map the manifest paths to include the "data/" prefix 
-        // because the browser is looking from the root index.html
-        const eventPaths = manifest.events.map(path => `data/${path}`);
-        
-        // 3. Fetch all event files simultaneously
-        const eventResults = await Promise.allSettled(
-            eventPaths.map(url => fetch(url).then(res => res.json()))
-        );
+try{
 
-        // 4. Combine all successful event data into one array
-        const allEvents = eventResults
-            .filter(res => res.status === "fulfilled")
-            .map(res => res.value);
+const manifestResponse = await fetch('data/index.json');
+const manifest = await manifestResponse.json();
 
-        console.log("Successfully loaded events:", allEvents);
 
-        // Now you can populate your UI using allEvents
-        // Example: populateTable(allEvents);
 
-    } catch (e) {
-        console.error("Portal Loading Error:", e);
-    }
+/* EVENTS */
+
+const eventPaths = manifest.events.map(p => `data/${p}`);
+
+const eventFiles = await Promise.allSettled(
+eventPaths.map(url => fetch(url).then(r => r.json()))
+);
+
+const events = eventFiles
+.filter(r => r.status==="fulfilled")
+.flatMap(r => r.value);
+
+
+
+/* JOB DATA */
+
+const jobPaths = manifest.jobsdata.map(p => `data/${p}`);
+
+const jobFiles = await Promise.allSettled(
+jobPaths.map(url => fetch(url).then(r => r.json()))
+);
+
+const jobs = jobFiles
+.filter(r => r.status==="fulfilled")
+.flatMap(r => r.value);
+
+
+
+/* IMPORTANT LINKS */
+
+const linkResponse = await fetch(`data/${manifest.importantlinks}`);
+const importantLinks = await linkResponse.json();
+
+
+
+/* DAILY POSTS */
+
+const dailyFiles = await fetchDailyPosts();
+
+
+
+/* POPULATE UI */
+
+populateJobs(jobs);
+
+populateEvents(events);
+
+populateLinks(importantLinks);
+
+populateDaily(dailyFiles);
+
+
+
+}catch(e){
+
+console.error("Portal Error",e);
+
 }
+
+}
+
+
+
+/* DAILY POST LOADER */
+
+async function fetchDailyPosts(){
+
+try{
+
+const folder = "data/dailypost/";
+
+const today = new Date();
+
+const dd = String(today.getDate()).padStart(2,'0');
+const mm = String(today.getMonth()+1).padStart(2,'0');
+const yyyy = today.getFullYear();
+
+const file = `${folder}${dd}-${mm}-${yyyy}-post.json`;
+
+const res = await fetch(file);
+
+if(!res.ok) return [];
+
+return await res.json();
+
+}catch{
+
+return [];
+
+}
+
+}
+
+
+
+/* UI FUNCTIONS */
+
+
+function populateJobs(jobs){
+
+const ul = document.getElementById("list-jobs");
+
+jobs.slice(0,20).forEach(job=>{
+
+const li = document.createElement("li");
+
+li.innerHTML = `<a href="${job.url}" target="_blank">${job.title}</a>`;
+
+ul.appendChild(li);
+
+});
+
+}
+
+
+
+function populateEvents(events){
+
+events.forEach(e=>{
+
+if(e.type==="Admit Card") addItem("list-admit",e);
+if(e.type==="Answer Key") addItem("list-answer",e);
+if(e.type==="Result") addItem("list-result",e);
+if(e.type==="Interview") addItem("list-interview",e);
+if(e.type==="Document Verification") addItem("list-dv",e);
+
+});
+
+}
+
+
+
+function populateLinks(data){
+
+const grid = document.getElementById("resource-grid");
+
+data.forEach(cat=>{
+
+const div = document.createElement("div");
+
+div.innerHTML=`<h3>${cat.category}</h3>`;
+
+cat.links.forEach(l=>{
+
+const a=document.createElement("a");
+
+a.href=l.url;
+
+a.textContent=l.title;
+
+a.target="_blank";
+
+div.appendChild(a);
+
+});
+
+grid.appendChild(div);
+
+});
+
+}
+
+
+
+function populateDaily(posts){
+
+const ul=document.getElementById("list-daily");
+
+posts.forEach(p=>{
+
+const li=document.createElement("li");
+
+li.innerHTML=`<a href="${p.url}" target="_blank">${p.title}</a>`;
+
+ul.appendChild(li);
+
+});
+
+}
+
+
+
+function addItem(id,data){
+
+const ul=document.getElementById(id);
+
+const li=document.createElement("li");
+
+li.innerHTML=`<a href="${data.url}" target="_blank">${data.title}</a>`;
+
+ul.appendChild(li);
+
+}
+
+
+
+document.addEventListener("DOMContentLoaded",loadPortal);
