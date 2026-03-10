@@ -4,13 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Job Details | SarkarKinokri</title>
-<link rel="stylesheet" href="css/detailstyle.css" id="details-css">
-<script src="js/details.js" defer></script>
+
+<!-- Default CSS -->
+<link rel="stylesheet" href="css/detailstyle.css" id="detail-style">
+<!-- Alternate CSS -->
+<link rel="stylesheet" href="css/detailstyle-alt.css" id="detail-alt" disabled>
+
+<script>
+// Toggle between default and alternate CSS
+function toggleDetailStyle(styleName){
+    const def = document.getElementById("detail-style");
+    const alt = document.getElementById("detail-alt");
+    if(styleName === 'alt'){ def.disabled = true; alt.disabled = false; }
+    else { def.disabled = false; alt.disabled = true; }
+}
+</script>
 </head>
 <body>
 <div class="container">
-  <div id="loader"><div class="spinner"></div><p>Checking priority...</p></div>
-  <div id="main-content" style="display: none;"></div>
+    <div id="loader"><div class="spinner"></div><p>Checking priority...</p></div>
+    <div id="main-content" style="display:none;"></div>
 </div>
+
+<script src="js/details.js"></script>
 </body>
 </html>
