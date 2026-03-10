@@ -1,26 +1,30 @@
 async function loadPortal() {
     try {
-        // 1. Fetch the main manifest first
-        const manifestResponse = await fetch('data/index.json');
-        const manifest = await manifestResponse.json();
+        // 1. Fetch the manifest (Relative to index.html)
+        const response = await fetch('data/index.json');
+        if (!response.ok) throw new Error("Could not find index.json");
+        const manifest = await response.json();
 
-        // 2. Now fetch the actual content using paths from the manifest
-        // Let's grab the first event file and the static files as an example
-        const results = await Promise.allSettled([
-            fetch(manifest.events[0]).then(r => r.json()), // Fetches Mslug_1.json
-            fetch(manifest.staticportals).then(r => r.json()),
-            fetch(manifest.importantlinks).then(r => r.json())
-        ]);
-
-        const eventData = results[0].status === "fulfilled" ? results[0].value : null;
-        const portals = results[1].status === "fulfilled" ? results[1].value : [];
-        const links = results[2].status === "fulfilled" ? results[2].value : [];
-
-        console.log("Actual Event Content:", eventData);
+        // 2. Map the manifest paths to include the "data/" prefix 
+        // because the browser is looking from the root index.html
+        const eventPaths = manifest.events.map(path => `data/${path}`);
         
-        // 3. Populate your UI here...
+        // 3. Fetch all event files simultaneously
+        const eventResults = await Promise.allSettled(
+            eventPaths.map(url => fetch(url).then(res => res.json()))
+        );
+
+        // 4. Combine all successful event data into one array
+        const allEvents = eventResults
+            .filter(res => res.status === "fulfilled")
+            .map(res => res.value);
+
+        console.log("Successfully loaded events:", allEvents);
+
+        // Now you can populate your UI using allEvents
+        // Example: populateTable(allEvents);
 
     } catch (e) {
-        console.error("Failed to load portal:", e);
+        console.error("Portal Loading Error:", e);
     }
 }
