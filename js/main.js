@@ -2,248 +2,183 @@ async function loadPortal(){
 
 try{
 
-const res = await fetch("data/index.json");
+console.log("Portal loading...");
 
-const manifest = await res.json();
-
-
+const manifest = await fetch("data/index.json").then(r=>r.json());
 
 /* EVENTS */
 
 const eventPaths = manifest.events.map(p=>"data/"+p);
 
 const eventFiles = await Promise.allSettled(
-
-eventPaths.map(url=>fetch(url).then(r=>r.json()))
-
+eventPaths.map(p=>fetch(p).then(r=>r.json()))
 );
 
-const events = eventFiles
+let jobs=[];
 
-.filter(r=>r.status==="fulfilled")
+eventFiles.forEach(res=>{
 
-.flatMap(r=>Array.isArray(r.value)?r.value:[r.value]);
+if(res.status==="fulfilled"){
+
+const file=res.value;
+
+if(file.data){
+
+Object.values(file.data).forEach(job=>{
+jobs.push(job);
+});
+
+}
+
+}
+
+});
 
 
-
-/* JOBS */
+/* JOBSDATA */
 
 const jobPaths = manifest.jobsdata.map(p=>"data/"+p);
 
 const jobFiles = await Promise.allSettled(
-
-jobPaths.map(url=>fetch(url).then(r=>r.json()))
-
+jobPaths.map(p=>fetch(p).then(r=>r.json()))
 );
 
-const jobs = jobFiles
+let tableJobs=[];
 
-.filter(r=>r.status==="fulfilled")
+jobFiles.forEach(res=>{
 
-.flatMap(r=>Array.isArray(r.value)?r.value:[r.value]);
+if(res.status==="fulfilled"){
 
+const file=res.value;
+
+if(file.jobs){
+tableJobs.push(...file.jobs);
+}
+
+}
+
+});
 
 
 /* IMPORTANT LINKS */
 
-const linkRes = await fetch("data/"+manifest.importantlinks);
-
-const links = await linkRes.json();
-
+const links = await fetch("data/"+manifest.importantlinks)
+.then(r=>r.json());
 
 
-/* DAILY POSTS */
+/* STATIC PORTALS */
 
-const daily = await loadDaily();
-
-
-
-/* UI POPULATE */
-
-populateJobs(jobs);
-
-populateEvents(events);
-
-populateLinks(links);
-
-populateDaily(daily);
+const portals = await fetch("data/"+manifest.staticportals)
+.then(r=>r.json());
 
 
+/* RENDER */
+
+populateLatestJobs(jobs);
+populateJobsTable(tableJobs);
+populateImportantLinks(links);
+populateStaticPortals(portals);
 
 }catch(e){
 
-console.error("Portal error",e);
+console.error("Portal error:",e);
 
 }
 
 }
-
-
-
-/* DAILY LOADER */
-
-async function loadDaily(){
-
-try{
-
-const today = new Date();
-
-const dd = String(today.getDate()).padStart(2,'0');
-
-const mm = String(today.getMonth()+1).padStart(2,'0');
-
-const yyyy = today.getFullYear();
-
-const file = `data/dailypost/${dd}-${mm}-${yyyy}-post.json`;
-
-const r = await fetch(file);
-
-if(!r.ok) return [];
-
-return await r.json();
-
-}catch{
-
-return [];
-
-}
-
-}
-
-
-
-
-function populateJobs(jobs){
-
-const ul = document.getElementById("list-jobs");
-
-if(!ul) return;
-
-jobs.slice(0,20).forEach(job=>{
-
-const li = document.createElement("li");
-
-li.innerHTML =
-
-`<a href="${job.url}" target="_blank">
-
-${job.title || job.id}
-
-</a>`;
-
-ul.appendChild(li);
-
-});
-
-}
-
-
-
-
-function populateEvents(events){
-
-events.forEach(e=>{
-
-if(e.type==="Admit Card") add("list-admit",e);
-
-if(e.type==="Answer Key") add("list-answer",e);
-
-if(e.type==="Result") add("list-result",e);
-
-if(e.type==="Interview") add("list-interview",e);
-
-if(e.type==="Document Verification") add("list-dv",e);
-
-});
-
-}
-
-
-
-function populateLinks(data){
-
-const grid=document.getElementById("resource-grid");
-
-if(!grid) return;
-
-data.forEach(cat=>{
-
-const box=document.createElement("div");
-
-box.className="resource-box";
-
-box.innerHTML=`<h4>${cat.category}</h4>`;
-
-cat.links.forEach(l=>{
-
-const a=document.createElement("a");
-
-a.href=l.url;
-
-a.target="_blank";
-
-a.textContent=l.title;
-
-box.appendChild(a);
-
-});
-
-grid.appendChild(box);
-
-});
-
-}
-
-
-
-
-function populateDaily(posts){
-
-const ul=document.getElementById("list-daily");
-
-if(!ul) return;
-
-posts.forEach(p=>{
-
-const li=document.createElement("li");
-
-li.innerHTML=
-
-`<a href="${p.url}" target="_blank">
-
-${p.title || p.id}
-
-</a>`;
-
-ul.appendChild(li);
-
-});
-
-}
-
-
-
-
-function add(id,data){
-
-const ul=document.getElementById(id);
-
-if(!ul) return;
-
-const li=document.createElement("li");
-
-li.innerHTML=
-
-`<a href="${data.url}" target="_blank">
-
-${data.title || data.id}
-
-</a>`;
-
-ul.appendChild(li);
-
-}
-
-
 
 document.addEventListener("DOMContentLoaded",loadPortal);
+
+
+/* ---------- UI ---------- */
+
+function populateLatestJobs(jobs){
+
+const list=document.getElementById("latestjobs");
+
+if(!list) return;
+
+list.innerHTML="";
+
+jobs.forEach(job=>{
+
+const li=document.createElement("li");
+
+li.innerHTML=`<a href="details.html?id=${job.id}">${job.master}</a>`;
+
+list.appendChild(li);
+
+});
+
+}
+
+
+
+function populateJobsTable(jobs){
+
+const table=document.getElementById("jobsdata");
+
+if(!table) return;
+
+table.innerHTML="";
+
+jobs.forEach(job=>{
+
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td>${job.title}</td>
+<td><a href="${job.apply}">Apply</a></td>
+<td><a href="${job.admit}">Admit</a></td>
+<td><a href="${job.result}">Result</a></td>
+`;
+
+table.appendChild(row);
+
+});
+
+}
+
+
+
+function populateImportantLinks(links){
+
+const list=document.getElementById("importantlinks");
+
+if(!list) return;
+
+list.innerHTML="";
+
+links.forEach(link=>{
+
+const li=document.createElement("li");
+
+li.innerHTML=`<a href="${link.url}">${link.title}</a>`;
+
+list.appendChild(li);
+
+});
+
+}
+
+
+
+function populateStaticPortals(portals){
+
+const list=document.getElementById("staticportals");
+
+if(!list) return;
+
+list.innerHTML="";
+
+portals.forEach(portal=>{
+
+const li=document.createElement("li");
+
+li.innerHTML=`<a href="${portal.url}">${portal.title}</a>`;
+
+list.appendChild(li);
+
+});
+
+}
