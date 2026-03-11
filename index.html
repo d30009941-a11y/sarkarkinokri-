@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SarkarKinokri</title>
+<title>SarkarKinokri | Latest Govt Jobs</title>
 
-<!-- Link to correct CSS -->
+<!-- Link to CSS -->
 <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -18,32 +18,31 @@
 
 <!-- HERO SECTION -->
 <section class="hero-section">
-  <h2 class="hero-title">Latest Govt Jobs & Updates</h2>
-  <p class="hero-subtitle">All notifications, results, and admit cards in one place</p>
+  <h2 class="hero-title">YOUR GATEWAY TO GOVERNMENT SUCCESS</h2>
+  <p class="hero-subtitle">Verified Alerts, Real-time Updates, Simplified</p>
 
   <div class="hero-search">
-    <input type="text" class="hero-input" placeholder="Search jobs or notifications...">
-    <button class="hero-btn">Search</button>
+    <input type="text" id="searchInput" class="hero-input" placeholder="Search jobs or notifications...">
+    <button class="hero-btn" onclick="heroSearch()">Search</button>
   </div>
 
   <div class="hero-trust">
-    <span>Updated Daily</span>
-    <span>Official Sources Only</span>
-    <span>Mobile Friendly</span>
+    <span>🛡️ 100% Verified Jobs</span>
+    <span>🚀 Instant Alerts</span>
+    <span>📱 Mobile Friendly</span>
   </div>
 </section>
 
-<!-- STICKY TABS (if required in future) -->
+<!-- STICKY TABS -->
 <div class="sticky-tabs">
-  <a href="#latestjobs">Latest Jobs</a>
-  <a href="#jobsdata">Jobs Data</a>
-  <a href="#importantlinks">Important Links</a>
-  <a href="#staticportals">All Portals</a>
-  <a href="#dailyposts">Daily Posts</a>
+  <a href="#list-latestjobs">Latest Jobs</a>
+  <a href="#table-jobsdata">Jobs Data</a>
+  <a href="#list-importantlinks">Important Links</a>
+  <a href="#grid-staticportals">All Portals</a>
+  <a href="#grid-dailyposts">Daily Posts</a>
 </div>
 
 <!-- LATEST JOBS -->
-<!-- Latest Jobs -->
 <section class="recruitment-section">
   <h2>Latest Jobs</h2>
   <ul class="list" id="list-latestjobs">
@@ -51,7 +50,7 @@
   </ul>
 </section>
 
-<!-- Jobs Data Table -->
+<!-- JOBS DATA TABLE -->
 <section class="recruitment-section">
   <h2>Jobs Data</h2>
   <table border="1">
@@ -69,17 +68,17 @@
   </table>
 </section>
 
-<!-- Important Links -->
+<!-- IMPORTANT LINKS -->
 <section class="resources">
   <h2>Important Links</h2>
-  <div class="resource-grid" id="grid-importantlinks">
+  <div class="resource-grid">
     <ul class="list" id="list-importantlinks">
       <li>Loading...</li>
     </ul>
   </div>
 </section>
 
-<!-- Static Portals -->
+<!-- STATIC PORTALS -->
 <section class="all-portals">
   <h2>All Portals</h2>
   <div class="portal-grid" id="grid-staticportals">
@@ -87,7 +86,7 @@
   </div>
 </section>
 
-<!-- Daily Posts -->
+<!-- DAILY POSTS -->
 <section class="resources">
   <h2>Daily Posts</h2>
   <div class="resource-grid" id="grid-dailyposts">
@@ -95,13 +94,19 @@
   </div>
 </section>
 
-<!-- FOOTER INFO / SEO QUOTES -->
+<!-- FOOTER / INFO -->
 <section class="info-section">
   <p class="seo-quote">All information is sourced from official notifications and portals. Stay updated with daily posts.</p>
 </section>
 
 <!-- MAIN JS -->
 <script src="js/main.js"></script>
+<script>
+function heroSearch(){
+    const value=document.getElementById("searchInput").value.toLowerCase();
+    if(value) location.href="#list-latestjobs";
+}
+</script>
 
 </body>
 </html>
