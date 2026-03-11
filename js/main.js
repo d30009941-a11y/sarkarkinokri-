@@ -4,17 +4,19 @@ try{
 
 console.log("Portal loading...");
 
-const manifest = await fetch("data/index.json").then(r=>r.json());
+const manifest = await fetch("./data/index.json").then(r=>r.json());
 
-/* EVENTS */
+/* -------- EVENTS -------- */
 
-const eventPaths = manifest.events.map(p=>"data/"+p);
+let jobs=[];
+
+if(manifest.events){
+
+const eventPaths = manifest.events.map(p=>"./data/"+p);
 
 const eventFiles = await Promise.allSettled(
 eventPaths.map(p=>fetch(p).then(r=>r.json()))
 );
-
-let jobs=[];
 
 eventFiles.forEach(res=>{
 
@@ -25,7 +27,7 @@ const file=res.value;
 if(file.data){
 
 Object.values(file.data).forEach(job=>{
-jobs.push(job);
+jobs.push(normalizeJob(job));
 });
 
 }
@@ -34,16 +36,20 @@ jobs.push(job);
 
 });
 
+}
 
-/* JOBSDATA */
 
-const jobPaths = manifest.jobsdata.map(p=>"data/"+p);
+/* -------- JOBS TABLE -------- */
+
+let tableJobs=[];
+
+if(manifest.jobsdata){
+
+const jobPaths = manifest.jobsdata.map(p=>"./data/"+p);
 
 const jobFiles = await Promise.allSettled(
 jobPaths.map(p=>fetch(p).then(r=>r.json()))
 );
-
-let tableJobs=[];
 
 jobFiles.forEach(res=>{
 
@@ -51,33 +57,66 @@ if(res.status==="fulfilled"){
 
 const file=res.value;
 
-if(file.jobs){
-tableJobs.push(...file.jobs);
+if(Array.isArray(file.jobs)){
+tableJobs.push(...file.jobs.map(normalizeTableJob));
+}
+
+if(Array.isArray(file)){
+tableJobs.push(...file.map(normalizeTableJob));
 }
 
 }
 
 });
 
-
-/* IMPORTANT LINKS */
-
-const links = await fetch("data/"+manifest.importantlinks)
-.then(r=>r.json());
+}
 
 
-/* STATIC PORTALS */
+/* -------- IMPORTANT LINKS -------- */
 
-const portals = await fetch("data/"+manifest.staticportals)
-.then(r=>r.json());
+let links=[];
+
+if(manifest.importantlinks){
+
+try{
+
+const raw = await fetch("./data/"+manifest.importantlinks).then(r=>r.json());
+
+links = Array.isArray(raw) ? raw : Object.values(raw);
+
+}catch(e){console.warn("importantlinks load failed")}
+
+}
 
 
-/* RENDER */
+/* -------- STATIC PORTALS -------- */
+
+let portals=[];
+
+if(manifest.staticportals){
+
+try{
+
+const raw = await fetch("./data/"+manifest.staticportals).then(r=>r.json());
+
+portals = Array.isArray(raw) ? raw : Object.values(raw);
+
+}catch(e){console.warn("static portals load failed")}
+
+}
+
+
+/* -------- RENDER -------- */
 
 populateLatestJobs(jobs);
+
 populateJobsTable(tableJobs);
+
 populateImportantLinks(links);
+
 populateStaticPortals(portals);
+
+console.log("Portal loaded successfully");
 
 }catch(e){
 
@@ -90,6 +129,43 @@ console.error("Portal error:",e);
 document.addEventListener("DOMContentLoaded",loadPortal);
 
 
+/* ---------- NORMALIZERS ---------- */
+
+function normalizeJob(job){
+
+return{
+
+id: job.id || job.slug || Math.random(),
+
+title: job.master || job.title || job.name || "Job Update",
+
+url: job.url || "#",
+
+opening_date: job.opening_date || "",
+
+closing_date: job.closing_date || ""
+
+};
+
+}
+
+function normalizeTableJob(job){
+
+return{
+
+title: job.title || job.master || job.name || "Job",
+
+apply: job.apply || job.apply_url || "#",
+
+admit: job.admit || job.admit_url || "#",
+
+result: job.result || job.result_url || "#"
+
+};
+
+}
+
+
 /* ---------- UI ---------- */
 
 function populateLatestJobs(jobs){
@@ -100,11 +176,11 @@ if(!list) return;
 
 list.innerHTML="";
 
-jobs.forEach(job=>{
+jobs.slice(0,25).forEach(job=>{
 
 const li=document.createElement("li");
 
-li.innerHTML=`<a href="details.html?id=${job.id}">${job.master}</a>`;
+li.innerHTML=`<a href="details.html?id=${job.id}">${job.title}</a>`;
 
 list.appendChild(li);
 
@@ -122,7 +198,7 @@ if(!table) return;
 
 table.innerHTML="";
 
-jobs.forEach(job=>{
+jobs.slice(0,50).forEach(job=>{
 
 const row=document.createElement("tr");
 
@@ -151,9 +227,11 @@ list.innerHTML="";
 
 links.forEach(link=>{
 
+const title = link.title || link.name || "Portal";
+
 const li=document.createElement("li");
 
-li.innerHTML=`<a href="${link.url}">${link.title}</a>`;
+li.innerHTML=`<a href="${link.url || "#"}">${title}</a>`;
 
 list.appendChild(li);
 
@@ -173,9 +251,11 @@ list.innerHTML="";
 
 portals.forEach(portal=>{
 
+const title = portal.title || portal.name || "Portal";
+
 const li=document.createElement("li");
 
-li.innerHTML=`<a href="${portal.url}">${portal.title}</a>`;
+li.innerHTML=`<a href="${portal.url || "#"}">${title}</a>`;
 
 list.appendChild(li);
 
