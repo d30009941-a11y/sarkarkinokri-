@@ -57,6 +57,19 @@ body {
 .portal-grid a { flex:0 0 auto; background:var(--bg-accent); padding:10px; border-radius:5px; text-decoration:none; color:var(--text-main); font-size:13px; transition:0.2s; }
 .portal-grid a:hover{ background:var(--brand-red); color:white; }
 
+#grid-dailyposts {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+#grid-dailyposts > div {
+    min-width: 250px;
+    background:#fef3c7;
+    padding:10px;
+    border:1px solid #fcd34d;
+    border-radius:6px;
+}
 @media(max-width:600px){
   .hero-section { padding:25px 15px; }
   .hero-title { font-size:24px; }
